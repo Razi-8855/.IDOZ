@@ -531,6 +531,10 @@ a {
     margin-right: 10%;
 }
 
+.product-card.centered-card {
+    grid-column: 4 / span 6;
+}
+
 .product-img-wrapper {
     position: relative;
     width: 100%;
@@ -686,7 +690,7 @@ a {
 .lightbox-image-side img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .lightbox-details-side {
@@ -1152,4 +1156,144 @@ a {
     .stage-title {
         font-size: 1.5rem;
     }
+}
+
+/* ==========================================================================
+   INFINITE SLIDER MARQUEE
+   ========================================================================== */
+.scene {
+    width: 100%;
+    background: transparent;
+    padding: 40px 0 48px;
+    overflow: hidden;
+    position: relative;
+}
+
+.brand-label {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    letter-spacing: 0.28em;
+    color: var(--color-dusty-mauve);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.slider-track {
+    display: flex;
+    gap: 32px;
+    width: max-content;
+    animation: slide 22s linear infinite;
+    padding: 12px 0 20px;
+}
+
+.slider-track.paused {
+    animation-play-state: paused;
+}
+
+@keyframes slide {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.jacket-card {
+    position: relative;
+    width: 320px;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.jacket-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.jacket-card:hover img {
+    transform: scale(1.04);
+}
+
+.jacket-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(74,53,56,0.88) 0%, rgba(74,53,56,0.3) 50%, transparent 80%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 16px 18px;
+}
+
+.jacket-card:hover .jacket-overlay {
+    opacity: 1;
+}
+
+.jacket-name {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--color-blush-silk);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    transform: translateY(8px);
+    transition: transform 0.4s ease 0.05s;
+}
+
+.jacket-card:hover .jacket-name {
+    transform: translateY(0);
+}
+
+.jacket-detail {
+    font-size: 13px;
+    color: var(--color-blush-silk);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transform: translateY(8px);
+    transition: transform 0.4s ease 0.1s;
+    margin-bottom: 12px;
+}
+
+.jacket-card:hover .jacket-detail {
+    transform: translateY(0);
+}
+
+.jacket-tag {
+    display: inline-block;
+    background: var(--color-rose-gold);
+    color: var(--color-blush-silk);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s;
+}
+
+.jacket-card:hover .jacket-tag {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Custom cursor removed */
+.tagline {
+    text-align: center;
+    font-family: var(--font-serif);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--color-dusty-mauve);
+    margin-top: 28px;
+    opacity: 0.7;
 }

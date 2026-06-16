@@ -247,6 +247,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // COLLECTION LANDING PAGE LOGIC (collection.html)
     // ==========================================================================
     function initCollectionPage() {
+        // ==========================================================================
+        // INFINITE SLIDER MARQUEE LOGIC
+        // ==========================================================================
+        const jackets = [
+            { img: "assets/tr Bl.png", name: "The Midnight Cartographer", detail: "Navy · Floral Embroidery", tag: "Piece 01" },
+            { img: "assets/Tr R.png", name: "The Obsidian Ritual", detail: "Black · Velvet & Silk", tag: "Piece 02" },
+            { img: "assets/tr Bb.png", name: "The Sapphire Scribe", detail: "Navy · Geometric Sleeves", tag: "Piece 03" },
+            { img: "assets/tr B.png", name: "The Desert Heirloom", detail: "Sand · Cashmere Wool", tag: "Piece 04" },
+            { img: "assets/Tr G.png", name: "The Botanical Alchemist", detail: "Dark Green · Heritage Silk", tag: "Piece 05" },
+            { img: "assets/Tr C.png", name: "The Empress Crimson", detail: "Crimson · Silk Wool", tag: "Piece 06" },
+            { img: "assets/tr Bbb.png", name: "The Dark Geometry", detail: "Navy · Deep Embroidery", tag: "Piece 07" }
+        ];
+
+        const track = document.getElementById('track');
+        const wrapper = document.getElementById('wrapper');        if (track && wrapper) {
+            function makeCard(j) {
+                const card = document.createElement('div');
+                card.className = 'jacket-card';
+                card.innerHTML = `
+                    <img src="${j.img}" alt="${j.name}">
+                    <div class="jacket-overlay">
+                        <div class="jacket-name">${j.name}</div>
+                        <div class="jacket-detail">${j.detail}</div>
+                        <span class="jacket-tag">${j.tag}</span>
+                    </div>
+                `;
+                return card;
+            }
+
+            [...jackets, ...jackets].forEach(j => track.appendChild(makeCard(j)));
+
+            wrapper.addEventListener('mouseenter', () => track.classList.add('paused'));
+            wrapper.addEventListener('mouseleave', () => {
+                track.classList.remove('paused');
+            });
+        }
+
+        // ==========================================================================
+        // EXISTING LIGHTBOX & GRID LOGIC
+        // ==========================================================================
         const cards = document.querySelectorAll('.product-card');
         const lightbox = document.getElementById('luxury-lightbox');
         const closeBtn = document.getElementById('lightbox-close');
