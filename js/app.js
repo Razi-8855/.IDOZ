@@ -17,11 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         infinite: false,
     });
 
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+
 
     // 2. Initialize GSAP Plugins
     if (typeof gsap !== 'undefined') {
@@ -100,12 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrub: 1.2, // Ultra-smooth drag
                 onUpdate: (self) => {
                     const img = bee.querySelector('.bee-img');
+                    
+                    // Handle 3D flipping based on scroll direction
                     if (self.direction === -1 && !beeFlipped) {
                         gsap.to(img, { rotationX: 180, duration: 0.3 });
                         beeFlipped = true;
                     } else if (self.direction === 1 && beeFlipped) {
                         gsap.to(img, { rotationX: 0, duration: 0.3 });
                         beeFlipped = false;
+                    }
+                    
+                    // Handle realistic physics - stop wings when landed
+                    if (self.progress > 0.99) {
+                        img.style.animationPlayState = 'paused';
+                    } else {
+                        img.style.animationPlayState = 'running';
                     }
                 }
             }
@@ -154,7 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .to(bee, { scale: 0.7, duration: 0.2, ease: "sine.inOut" }) // Chapter 2: Retreat into background
             .to(bee, { scale: 1.4, duration: 0.2, ease: "sine.inOut" }) // Chapter 3: Zoom extremely close
             .to(bee, { scale: 0.9, duration: 0.2, ease: "sine.inOut" }) // Chapter 4: Medium hover
-            .to(bee, { scale: 0, opacity: 0, duration: 0.2, ease: "sine.in" }); // Climax: fly into blazer & fade out
+            .to(bee, { 
+                scale: 0.5, // Match realistic size of embroidered bee
+                opacity: 0.9, // Blend slightly into the jacket texture
+                duration: 0.2, 
+                ease: "back.out(1.5)" // Physics-based realistic landing bounce
+            }); // Climax: land on blazer
 
         // CHAPTER-SPECIFIC TEXT & BACKGROUND PARALLAX REVEALS
         
@@ -237,10 +247,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        finalTl.to("#final-image", { opacity: 1, duration: 1 }, 0);
-        finalTl.to("#final-image img", { scale: 1.08, duration: 1.5 }, 0);
-        finalTl.to("#final-text", { opacity: 1, y: 0, duration: 1 }, 0.5);
-        finalTl.to("#end-sequence", { opacity: 1, y: 0, duration: 0.8 }, 1);
+        finalTl.to("#final-text", { opacity: 1, y: 0, duration: 1 }, 0);
+        finalTl.to("#end-sequence", { opacity: 1, y: 0, duration: 0.8 }, 0.5);
+
+        // Jacket Landing Scene Fade In
+        gsap.to("#jacket-image", {
+            scrollTrigger: {
+                trigger: "#chapter-jacket",
+                start: "top bottom",
+                end: "center center",
+                scrub: true
+            },
+            opacity: 1
+        });
     }
 
     // ==========================================================================
