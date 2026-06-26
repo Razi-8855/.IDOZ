@@ -1,0 +1,60 @@
+
+Architecture 
+The website will have two main pages 
+● Story home page 
+● Collection landing page 
+Story Home Page 
+- Illustrated brand story journey (parallax plus bee animation) - with option to skip for repeat users 
+- Presentation of currently featured collection - reference - https://pin.it/5dYYQZZWO  
+- Image+text and link to non-featured collections (this option is for the future when we have more collections) 
+Collection landing page 
+- Presentation of collection - reference - https://pin.it/5dYYQZZWO   (repeat the same thing from the Story Home page because this is for users who come to the website from ads/purchase links. 
+- Each product links out to an individual product page 
+- The individual product page has Photos, video, descriptive text e-commerce standard options + add to cart/buy now etc 
+- Editorial-style images and text explaining the story behind the collection 
+Website Design Notes: 
+- The website is to have a storytelling-based layout everywhere - don’t want it to look like a corporate website 
+- Product home page and individual pages - bunch these by collection. Every time there is a new collection, it will have a separate set of landing pages and individual product pages. At no point are we going to show all the different collections on one common page 
+because each collection has its own language, aesthetic and world. 
+Other Pages 
+- About Us Page - Story-led editorial style page. 
+- Journal Page (blog style functionality - where we we cna upload media in different formats+long form writeups 
+- User Account 
+- Login / Sign Up 
+- Order History 
+- Wishlist (if enabled) 
+- Support (footer?) 
+- Shipping & Returns 
+- FAQ
+- Privacy Policy 
+- Contact (also footer?) 
+- Contact Form 
+- Email / Social Links 
+- Collaboration / Press enquiries 
+Architecture 
+Other Pages 
+-About Us Page - Story-led editorial style page. 
+-Journal Page (blog style functionality - where we we cna upload media in different formats+long form writeups 
+-User Account 
+-Login / Sign Up 
+-Order History 
+-Wishlist (if enabled) 
+-Support (footer?) 
+-Shipping & Returns 
+-FAQ
+-Privacy Policy 
+-Contact (also footer?) 
+-Contact Form 
+-Email / Social Links 
+-Collaboration / Press enquiries 
+Website Design Notes: 
+-The website is to have a storytelling-based layout everywhere - don’t want it to look like a corporate website 
+-Product home page and individual pages - bunch these by collection. Every time there is a new collection, it will have a 
+separate set of landing pages and individual product pages. At no point are we going to show all the different collections on one 
+common page because each collection has its own language, aesthetic and world. 
+Home page story flow 
+
+
+
+
+

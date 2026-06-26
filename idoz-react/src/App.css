@@ -1,0 +1,38 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #0d0d0d;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.app-container {
+  position: relative;
+  width: 100vw;
+}
+
+.story-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10vw;
+}
+
+.content-box {
+  max-width: 400px;
+  background: rgba(0,0,0,0.5);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  z-index: 1; /* Bee canvas is at zIndex: 10 but has pointer-events: none */
+  backdrop-filter: blur(10px);
+}
+
+h1, h2 {
+  color: #c17b5f;
+  margin-top: 0;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 2px;
+}

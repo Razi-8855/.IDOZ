@@ -4,14 +4,21 @@
 
 /* 1. Design Tokens & Variables */
 :root {
-    /* Luxury Palette: Dusty Blush, Rose Gold, Old Burgundy, Zari Gold */
-    --color-blush-bg: #E8D6D0;          /* Warm Dusty Blush Background */
-    --color-blush-silk: #F3EAE6;        /* Soft Lighter Silk Cream */
-    --color-rose-gold: #B76E79;         /* Thread Accents */
-    --color-dusty-mauve: #8E7C85;       /* Muted Contrast */
-    --color-deep-burgundy: #38252B;     /* Primary Contrast Text */
-    --color-zari-gold: #C5A059;         /* Metallic Gold embroidery accent */
-    --color-zari-glow: rgba(197, 160, 89, 0.3);
+    /* Strict Brand Palette */
+    --color-isabelline: #EEE8E8;        /* Primary / Main background */
+    --color-french-nude: #DED1D1;       /* Secondary / Section backgrounds */
+    --color-raspberry-glace: #895669;   /* Accent / CTAs / Highlights */
+    --color-old-burgundy: #4A3538;      /* Dark / Text / Headings */
+    --color-white-smoke: #F6F3F3;       /* Light / Alternating sections */
+
+    /* Legacy mappings strictly bound to new palette */
+    --color-blush-bg: var(--color-isabelline);
+    --color-blush-silk: var(--color-white-smoke);
+    --color-rose-gold: var(--color-raspberry-glace);
+    --color-dusty-mauve: var(--color-french-nude);
+    --color-deep-burgundy: var(--color-old-burgundy);
+    --color-zari-gold: var(--color-raspberry-glace);
+    --color-zari-glow: rgba(137, 86, 105, 0.3); /* Raspberry Glacé with opacity */
     
     /* Typography */
     --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -213,206 +220,387 @@ a {
 }
 
 /* ==========================================================================
-   STORYTELLING PAGE ARCHITECTURE
+   SCROLL-SCRUBBED VIDEO HERO
    ========================================================================== */
-.story-container {
+.video-hero-wrapper {
     position: relative;
     width: 100%;
+    height: 300vh; /* Scroll runway for scrubbing */
 }
 
-/* SVG Thread Layer */
-.thread-svg {
+.video-hero-sticky {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #0a0a0a;
+}
+
+#hero-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.hero-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 1rem;
+}
+
+/* ==========================================================================
+   STORYTELLING SECTIONS (NORMAL FLOW)
+   ========================================================================== */
+.story-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-isabelline);
+    transition: background-color 1s ease;
+}
+
+/* Scene Backgrounds */
+.bg-scene-1 {
+    background: linear-gradient(135deg, var(--color-isabelline), var(--color-white-smoke));
+}
+
+.bg-scene-2 {
+    background-color: var(--color-french-nude);
+}
+
+.bg-scene-3 {
+    background-color: var(--color-old-burgundy);
+    color: var(--color-isabelline);
+}
+
+.bg-scene-3 h2, .bg-scene-3 p, .bg-scene-3 .text-dusty {
+    color: var(--color-isabelline) !important;
+}
+
+.bg-scene-4 {
+    background-color: var(--color-white-smoke);
+}
+
+.story-section-reveal {
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 5vh;
+}
+
+/* Full-Screen Parallax Layouts */
+.fs-parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 1;
+}
+.fs-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(74, 53, 56, 0.8) 0%, rgba(74, 53, 56, 0.2) 100%);
+    z-index: 2;
+}
+.fs-overlay-reverse {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to left, rgba(74, 53, 56, 0.8) 0%, rgba(74, 53, 56, 0.2) 100%);
+    z-index: 2;
+}
+
+.tp-bg-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+    filter: sepia(0.2) contrast(1.1);
+}
+
+.tp-content-layer {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 var(--space-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.tp-center { align-items: center; text-align: center; }
+.tp-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+.tp-right { justify-content: flex-end; text-align: right; }
+.tp-right .text-block { grid-column: 2; }
+
+/* HERO SECTION */
+.tp-logo-text {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    letter-spacing: 0.3em;
+    color: var(--color-deep-burgundy);
+}
+
+.tp-orbit-svg, .tp-thread-svg, .tp-blueprint-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 5;
     pointer-events: none;
 }
 
-.thread-path {
-    stroke-dasharray: 20000;
-    stroke-dashoffset: 20000;
-    stroke: var(--color-zari-gold);
-    stroke-width: 1.5;
-    filter: drop-shadow(0 1px 3px rgba(197, 160, 89, 0.4));
+/* STORY TEXT */
+.story-text {
+    font-size: 3rem;
+    line-height: 1.2;
+    color: var(--color-old-burgundy);
+    opacity: 0; /* Managed by GSAP */
+    transform: translateY(20px);
 }
+.text-dusty { color: var(--color-french-nude); }
+.text-rose { color: var(--color-raspberry-glace); }
 
-/* The Realistic Embroidered Zari Bee */
-.bee-character {
+/* Strict Palette Text Utilities */
+.text-raspberry { color: var(--color-raspberry-glace) !important; }
+.text-old-burgundy { color: var(--color-old-burgundy) !important; }
+.text-isabelline { color: var(--color-isabelline) !important; }
+
+/* NATURE SECTION */
+.nature-imagery {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    width: 60vh;
+    height: 60vh;
+    z-index: 2;
+}
+.nature-layer {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
-    z-index: 100;
-    pointer-events: none;
-    opacity: 0;
-    transform-origin: center center;
-    filter: drop-shadow(0 6px 15px rgba(56, 37, 43, 0.25));
-}
-
-.bee-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    animation: wing-flutter 0.08s infinite alternate ease-in-out;
-}
-
-@keyframes wing-flutter {
-    0% { transform: scaleY(1) rotate(0deg); }
-    100% { transform: scaleY(0.92) rotate(-1deg); }
-}
-
-/* Narrative Chapters */
-.chapter {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl) var(--space-lg);
-    z-index: 10;
-    overflow: hidden;
-}
-
-.chapter-content {
-    position: relative;
-    z-index: 20;
-    max-width: 800px;
-    width: 100%;
-    background: rgba(232, 214, 208, 0.45);
-    padding: var(--space-lg);
-    border-radius: 4px;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(243, 234, 230, 0.3);
-    box-shadow: 0 20px 40px rgba(56, 37, 43, 0.05);
-}
-
-.story-text {
-    font-size: 2.4rem;
-    font-family: var(--font-serif);
-    line-height: 1.6;
-    color: var(--color-deep-burgundy);
-    margin-bottom: 0;
-}
-
-.fade-text {
     opacity: 0;
-    transform: translateY(30px);
 }
 
-.text-accent-gold {
-    color: var(--color-zari-gold);
-    font-weight: 400;
+/* CRAFT ASSEMBLY */
+.tp-garment-assembly {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vh;
+    height: 70vh;
+    z-index: 3;
+    background-image: url('../assets/blazer_pattern.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0; /* Base image opacity 0, we use clipped pieces */
 }
+.garment-piece {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    opacity: 0;
+}
+/* CSS Clip-paths for Garment Assembly */
+.gp-collar { clip-path: polygon(30% 0, 70% 0, 60% 20%, 40% 20%); }
+.gp-sleeve-l { clip-path: polygon(0 20%, 30% 20%, 20% 80%, 0 80%); }
+.gp-sleeve-r { clip-path: polygon(70% 20%, 100% 20%, 100% 80%, 80% 80%); }
+.gp-panel-l { clip-path: polygon(30% 20%, 50% 30%, 50% 100%, 20% 100%); }
+.gp-panel-r { clip-path: polygon(50% 30%, 70% 20%, 80% 100%, 50% 100%); }
 
-/* Parallax Art Reveal */
-.background-art {
+/* SIGNATURE & REVEAL */
+.signature-emblem-wrapper {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vh;
+    height: 40vh;
+    z-index: 2;
+}
+.signature-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+}
+.landing-target {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+    width: 10px;
+    height: 10px;
+}
+
+/* REVEAL SECTION — SPLIT LAYOUT */
+.reveal-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    width: 100vw;
+    max-width: 1200px;
+    height: 100vh;
+    padding: 0 6rem;
+    gap: 4rem;
+    box-sizing: border-box;
+}
+
+.reveal-text-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: var(--space-md) 0;
+}
+
+.reveal-eyebrow {
+    font-size: 0.75rem !important;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-dusty-mauve) !important;
     opacity: 0;
+    margin-bottom: 1rem;
+}
+
+.reveal-headline {
+    font-size: 3.5rem !important;
+    line-height: 1.1 !important;
+}
+
+.reveal-headline-cursive {
+    font-size: 3rem !important;
+    line-height: 1.2 !important;
+}
+
+.reveal-jacket-col {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 1.5s ease;
+    height: 85vh;
 }
 
-.background-art img {
-    max-width: 65%;
-    max-height: 75vh;
-    object-fit: contain;
-    opacity: 0.18;
-    filter: sepia(0.2) contrast(1.05);
-}
-
-.art-collage img {
-    position: absolute;
-    border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(56, 37, 43, 0.08);
-}
-
-.art-collage .layer-1 {
-    max-width: 45%;
-    top: 15%;
-    left: 10%;
-    transform: rotate(-3deg);
-    opacity: 0.22;
-}
-
-.art-collage .layer-2 {
-    max-width: 45%;
-    bottom: 15%;
-    right: 10%;
-    transform: rotate(4deg);
-    opacity: 0.25;
-}
-
-.art-full-cover img {
-    max-width: 100%;
+.reveal-jacket-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.28;
+    object-fit: contain;
+    opacity: 0;
+    filter: drop-shadow(0 20px 60px rgba(56,37,43,0.15));
 }
 
-/* Skip Journey Options */
-.skip-story-btn {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 500;
+/* Reveal section: stack layout + footer vertically */
+#sec-reveal {
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 5vh;
+}
+
+/* Footer embedded inside the final reveal section */
+.reveal-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 6rem;
+    border-top: 1px solid rgba(56, 37, 43, 0.2);
+    flex-shrink: 0;
+}
+
+.reveal-footer .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.reveal-footer .footer-logo img {
+    height: 24px;
+    width: auto;
+    opacity: 0.9;
+}
+
+.reveal-footer .footer-brand-name {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--color-deep-burgundy);
+}
+
+.reveal-footer .footer-links {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.reveal-footer .footer-links a {
     font-family: var(--font-sans);
     font-size: 0.7rem;
+    font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-deep-burgundy);
-    background: rgba(243, 234, 230, 0.7);
-    padding: 0.75rem 1.5rem;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(183, 110, 121, 0.2);
-    box-shadow: 0 4px 15px rgba(56, 37, 43, 0.05);
-    cursor: pointer;
-    transition: var(--transition-micro);
+    transition: color var(--transition-micro);
 }
 
-.skip-story-btn:hover {
-    background: var(--color-deep-burgundy);
-    color: var(--color-blush-silk);
-    border-color: var(--color-deep-burgundy);
+.reveal-footer .footer-links a:hover {
+    color: var(--color-rose-gold);
 }
 
-/* Final Story Scene & Transitions */
-.final-story-chapter {
-    min-height: 110vh;
-}
-
-.emotional-climax {
-    font-size: 3rem;
+.reveal-footer .copyright {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
     color: var(--color-deep-burgundy);
-    text-align: center;
-    line-height: 1.4;
+    letter-spacing: 0.1em;
 }
 
-.story-end-sequence {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
-    opacity: 0;
-    transform: translateY(20px);
-}
-
+/* Buttons */
 .luxury-button {
     display: inline-flex;
     align-items: center;
@@ -432,6 +620,7 @@ a {
     overflow: hidden;
     z-index: 10;
     transition: var(--transition-micro);
+    opacity: 0; /* Managed by GSAP */
 }
 
 .luxury-button::before {
@@ -441,26 +630,17 @@ a {
     left: 0;
     width: 0;
     height: 100%;
-    background: var(--color-zari-gold);
+    background: var(--color-rose-gold); /* Soft rose gold instead of bright zari gold */
     z-index: -1;
     transition: var(--transition-micro);
 }
 
 .luxury-button:hover {
-    color: var(--color-deep-burgundy);
+    color: var(--color-blush-silk);
 }
 
 .luxury-button:hover::before {
     width: 100%;
-}
-
-.shimmer {
-    animation: gold-glow 2.5s infinite alternate ease-in-out;
-}
-
-@keyframes gold-glow {
-    0% { filter: drop-shadow(0 0 4px var(--color-rose-gold)) drop-shadow(0 4px 10px rgba(56, 37, 43, 0.15)); }
-    100% { filter: drop-shadow(0 0 14px var(--color-zari-gold)) drop-shadow(0 4px 10px rgba(56, 37, 43, 0.15)); }
 }
 
 /* ==========================================================================
@@ -1296,4 +1476,362 @@ a {
     color: var(--color-dusty-mauve);
     margin-top: 28px;
     opacity: 0.7;
+}
+
+/* ==========================================================================
+   NEW ARCHITECTURE SPECIFIC STYLES
+   ========================================================================== */
+
+/* Scroll Video Background */
+#scroll-video-container {
+  position: fixed; inset: 0; z-index: -10;
+  background: #010101; top: -20%;
+}
+#scroll-video-container canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+#scroll-video-container .video-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.6); 
+}
+
+/* Particles Canvas */
+#particles-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: -5;
+}
+
+/* Hero Modifications */
+#hero {
+  position: relative; height: 100vh; width: 100%; display: flex; flex-direction: column;
+}
+#hero .gradient-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent, transparent);
+  pointer-events: none;
+}
+#hero .content {
+  position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end; text-align: center;
+  padding: 0 1.5rem 6rem;
+}
+#hero .subtitle { 
+  font-size: 0.875rem; color: var(--color-dusty-mauve); margin-bottom: 1rem; letter-spacing: 0.15em; text-transform: uppercase;
+}
+#hero h1 { 
+  font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; line-height: 1.15; max-width: 48rem;
+  color: var(--color-blush-silk);
+}
+#hero h1 .underlined {
+  position: relative; display: inline-block;
+}
+#hero h1 .underlined .line {
+  position: absolute; bottom: 0.25rem; left: 0; width: 100%; height: 6px;
+  background: var(--color-zari-gold); border-radius: 1px; opacity: 0.7;
+}
+#hero h1 .underlined span { position: relative; z-index: 2; }
+#hero .ctas {
+  display: flex; align-items: center; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center;
+}
+#hero .bounce-arrow {
+  position: relative; z-index: 10; display: flex; justify-content: center; padding-bottom: 2rem;
+}
+#hero .bounce-arrow svg { 
+  width: 1.5rem; height: 1.5rem; color: var(--color-rose-gold); animation: bounce 1s infinite; 
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25%); }
+}
+
+/* Parallax Story Section */
+#parallax-story {
+  position: relative;
+  width: 100%;
+  height: 300vh;
+}
+.parallax-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* ==========================================================================
+   BEE'S JOURNEY (SCROLL-SCRUBBED PARALLAX)
+   ========================================================================== */
+.bee-journey {
+    position: relative;
+    width: 100vw;
+    overflow: visible;
+}
+
+/* The scenes */
+.journey-scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.scene-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.scene-1 { background-color: var(--color-blush-bg); }
+.scene-2 { background-color: #F8F2F0; }
+.scene-3 { background-color: #EFE8E5; }
+.scene-4 { background-color: var(--color-blush-bg); }
+
+/* The Bee */
+.animated-bee {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px; /* Reduced base size */
+    height: auto;
+    z-index: 100;
+    pointer-events: none;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.bee-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    animation: bee-flutter 1.5s infinite ease-in-out;
+    filter: drop-shadow(0 10px 15px rgba(56,37,43,0.3));
+}
+
+@keyframes bee-flutter {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(0.94); }
+}
+
+.bee-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-zari-glow) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-micro);
+}
+
+.animated-bee.hover-glow .bee-glow {
+    opacity: 1;
+}
+
+/* Flight Path SVG */
+.bee-flight-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.bee-path-line {
+    stroke: transparent;
+}
+
+.bee-path-drawn {
+    stroke: var(--color-zari-gold);
+    stroke-width: 0.5;
+    stroke-dasharray: 4 4;
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 5px rgba(197, 160, 89, 0.4));
+}
+
+/* Parallax Layers */
+.pl-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scene 2 details */
+.swatch-container {
+    position: relative;
+    width: 80vw;
+    max-width: 800px;
+}
+.swatches-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 15px 30px rgba(56,37,43,0.15));
+}
+.interactive-swatch {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    right: 15%;
+    cursor: pointer;
+    transition: transform var(--transition-micro), box-shadow var(--transition-micro);
+}
+.interactive-swatch.is-2 {
+    top: 60%;
+    left: 10%;
+    width: 150px;
+}
+.interactive-swatch:hover {
+    transform: translateY(-4px) rotate(2deg);
+    box-shadow: 0 10px 20px rgba(56,37,43,0.2);
+}
+
+/* Scene 3 details */
+.loose-pieces-img {
+    position: absolute;
+    left: 5%;
+    width: 40vw;
+    max-width: 500px;
+    filter: drop-shadow(0 10px 25px rgba(56,37,43,0.15));
+}
+.jacket-mask-container {
+    position: absolute;
+    right: 5%;
+    width: 45vw;
+    max-width: 600px;
+    overflow: hidden;
+    clip-path: inset(100% 0 0 0); /* Starts hidden */
+}
+.jacket-build-img {
+    width: 100%;
+    display: block;
+}
+
+/* Scene 4 details */
+.scene-4-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+.finished-jacket-container {
+    position: relative;
+    width: 60vh;
+    max-width: 90vw;
+    margin-top: 2rem;
+}
+.finished-jacket-img {
+    width: 100%;
+    border-radius: 2px;
+    filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+}
+.jacket-bee-target {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    transform: translate(-50%, -50%);
+    background: transparent;
+}
+
+/* Intro Cards (formerly fixed-cards) */
+.intro-cards {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    z-index: 10;
+}
+
+.intro-cards .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.intro-cards .card {
+    background: transparent;
+}
+
+.intro-cards .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-dusty-mauve);
+}
+
+.intro-cards .card p {
+    font-size: 1rem;
+    color: var(--color-deep-burgundy);
+    opacity: 0.8;
+}
+
+/* 3D Bee Canvas */
+.bee-3d-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 50; /* High enough to be above layers, below modals */
+}
+
+/* Skip Story Button */
+.skip-story-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    background: transparent;
+    border: 1px solid rgba(246, 243, 243, 0.4);
+    color: var(--color-isabelline, #F6F3F3);
+    padding: 0.8rem 1.5rem;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.skip-story-btn:hover {
+    background: rgba(246, 243, 243, 0.1);
+    border-color: rgba(246, 243, 243, 0.8);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  nav .nav-links { display: none; }
+  #hero .content { padding-bottom: 5rem; }
+  #hero h1 { font-size: 2.5rem; }
+  #fixed-cards .grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  #fixed-cards { padding: 1.5rem 1rem; }
+  #section-three { padding-bottom: 5rem; }
+  .pl-1 { top: 15%; left: 5%; width: 70vw; height: 35vh; }
+  .pl-2 { top: 35%; right: 5%; width: 75vw; height: 40vh; }
+  .pl-3 { top: 60%; left: 15%; width: 60vw; height: 30vh; }
 }

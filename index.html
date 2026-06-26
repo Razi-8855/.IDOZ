@@ -23,7 +23,7 @@
         .lenis.lenis-scrolling iframe { pointer-events: none; }
     </style>
 
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <link rel="stylesheet" href="css/style.css?v=4.0">
     <link rel="icon" type="image/png" href="assets/logo_gold.png">
 </head>
 
@@ -31,6 +31,10 @@
 
     <!-- Global Luxury Texture Overlay -->
     <div class="luxury-texture-overlay"></div>
+
+
+    <!-- Particles -->
+    <canvas id="particles-canvas"></canvas>
 
     <!-- Floating Luxury Header -->
     <header class="luxury-nav">
@@ -46,120 +50,89 @@
     </header>
 
     <!-- Skip Story button for repeat users -->
-    <button class="skip-story-btn" onclick="window.location.href='collection.html'">Skip Journey</button>
+    <button class="skip-story-btn" onclick="window.location.href='collection.html'">Skip Story</button>
 
-    <div class="main-wrapper">
-        
+
+    <!-- Main Scroll Content -->
+    <div id="content">
         <!-- ==============================================
-             STORYTELLING EXPERIENCE (THE BEE'S JOURNEY)
+             BEE'S JOURNEY (SCROLL-SCRUBBED PARALLAX)
              ============================================== -->
-        <div class="story-container" id="story-container">
+        <div id="bee-journey" class="bee-journey">
             
-            <!-- SVG PATH FOR BEE THREAD TRAIL -->
-            <svg class="thread-svg" viewBox="0 0 1000 6500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- A long, winding bezier path that the bee will follow. We will animate stroke-dashoffset to draw it -->
-                <path id="bee-path" class="thread-path" fill="none" 
-                      d="M 500,0 
-                         C 500,300 850,550 850,1050 
-                         C 850,1550 150,1750 150,2250 
-                         C 150,2750 850,2950 850,3450 
-                         C 850,3950 150,4150 150,4650 
-                         C 150,5150 850,5350 850,5850 
-                         C 850,5950 500,5950 500,6100" />
-            </svg>
+            <!-- 3D Canvas for Bee -->
+            <canvas id="bee-3d-canvas" class="bee-3d-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 50;"></canvas>
 
-            <!-- THE BEE PROTAGONIST -->
-            <div class="bee-character" id="bee-character">
-                <img src="assets/logo_gold.png" alt="The Zari Bee" class="bee-img">
-            </div>
-
-            <!-- HERO CHAPTER -->
-            <section class="chapter hero-chapter" id="chapter-hero">
-                <div class="chapter-content text-center">
-                    <h1 class="story-text fade-text" id="hero-text-1" style="font-size: 2.8rem; margin-bottom: 1.5rem;">
-                        The bee does not dream of honey.
-                    </h1>
-                    <p class="story-text fade-text text-cursive text-accent-gold" id="hero-text-2" style="font-size: 1.8rem;">
-                        Honey is what it leaves behind.
-                    </p>
+            <!-- SCENE 1: HERO / OPENING -->
+            <section class="journey-scene scene-1" id="scene-1" style="position: relative; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; background-color: #000;">
+                <!-- Full-Screen Background -->
+                <div class="pl-layer" data-speed="0" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;">
+                    <video src="assets/hero_bg_video.mp4" class="fs-parallax-bg" autoplay loop muted playsinline style="display: block; width: 100vw; height: 100vh; object-fit: cover; border-radius: 0; max-width: none; margin: 0; padding: 0; transform: scale(1.35); transform-origin: center center;"></video>
+                </div>
+                <!-- Subtle overlay for text readability -->
+                <div style="position: absolute; inset: 0; background: rgba(246, 243, 243, 0.2); z-index: 2;"></div>
+                
+                <div class="scene-content tp-center" style="position: relative; z-index: 10; text-align: center; max-width: 90vw;">
+                    <h2 style="font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 0.5rem; font-family: var(--font-heading); color: var(--color-raspberry-glace); text-transform: uppercase; letter-spacing: 0.2em; font-weight: normal;">I Dream Of Zari</h2>
+                    <h1 class="tp-logo-text" style="font-size: clamp(2.5rem, 8vw, 4.5rem); margin: 1rem 0;">Where Embroidery<br>Becomes Language</h1>
+                    <p class="text-old-burgundy" style="max-width: 600px; margin: 0 auto; opacity: 0.9; font-weight: 500;">Originating in ancient Persian imperial courts, Zari is the language of goldwork. We rescue this sacred art from the pages of history, draping it over the modern shoulder.</p>
                 </div>
             </section>
 
-            <!-- CHAPTER 1: THE SOUL OF ZARI -->
-            <section class="chapter story-chapter" id="chapter-1">
-                <div class="background-art pattern-reveal art-full-cover" id="ch1-pattern">
-                    <img src="assets/diamond_pattern.jpg" alt="Embroidery Pattern">
+            <!-- SCENE 2: MATERIALS -->
+            <section class="journey-scene scene-2" id="scene-2" style="position: relative; display: flex; align-items: center; height: 100vh; overflow: hidden; margin-top: -2px; background-color: #000;">
+                <!-- Full-Screen Background -->
+                <div class="pl-layer" data-speed="0">
+                    <video src="assets/materials_bg_video.mp4" class="fs-parallax-bg" autoplay loop muted playsinline style="transform: scale(1.35); transform-origin: center center;"></video>
                 </div>
-                <div class="chapter-content right-align">
-                    <p class="story-text fade-text">
-                        The bee dreams <span class="text-cursive">of the flower</span>.<br>
-                        Of golden threads stretched tight,<br>
-                        waiting to register the touch of the needle.
-                    </p>
-                </div>
-            </section>
-
-            <!-- CHAPTER 2: CRAFT & MEMORY -->
-            <section class="chapter story-chapter" id="chapter-2">
-                <div class="background-art pattern-reveal art-full-cover" id="ch2-artisan">
-                    <img src="assets/swatches.jpg" alt="Silk Threads and Sketches">
-                </div>
-                <div class="chapter-content left-align">
-                    <p class="story-text fade-text">
-                        A memory stitched in silk.<br>
-                        Carrying the wisdom of hands that have spent<br>
-                        generations tracing the geometry of grace.
-                    </p>
-                </div>
-            </section>
-
-            <!-- CHAPTER 3: SILHOUETTES OF STEEL & SILK -->
-            <section class="chapter story-chapter" id="chapter-3">
-                <div class="background-art construction-reveal art-full-cover" id="ch3-garment">
-                    <img src="assets/blazer_pattern.jpg" alt="Embroidery Detail Close-up">
-                </div>
-                <div class="chapter-content center-align">
-                    <p class="story-text fade-text">
-                        Every jacket is a canvas of dreams.<br>
-                        Soft wools and structured velvets meeting<br>
-                        the absolute delicacy of Zardozi.
-                    </p>
-                </div>
-            </section>
-
-            <!-- CHAPTER 4: THE SIGNATURE -->
-            <section class="chapter story-chapter" id="chapter-4">
-                <div class="background-art emblem-reveal art-full-cover" id="ch4-emblem">
-                    <img src="assets/floral_bee.jpg" alt="Signature Logo Emblem">
-                </div>
-                <div class="chapter-content bottom-align">
-                    <p class="story-text fade-text">
-                        An emblem of devotion.<br>
-                        Sewn into the collar, close to the skin.<br>
-                        A secret luxury.
-                    </p>
-                </div>
-            </section>
-
-            <!-- FINAL STORY SCENE (TEXT ONLY) -->
-            <section class="chapter final-story-chapter" id="chapter-final" style="min-height: 50vh;">
-                <div class="chapter-content center-align" style="background: transparent; max-width: 900px; padding: var(--space-xl) var(--space-lg);">
-                    <h2 class="story-text emotional-climax fade-text" id="final-text">
-                        I Dream of Zari lives in the stories<br>
-                        the soul returns to again and again.
-                    </h2>
-                    <div class="story-end-sequence" id="end-sequence">
-                        <button class="luxury-button" onclick="window.location.href='collection.html'">
-                            Enter The Archive
-                        </button>
+                <div class="fs-overlay"></div>
+                
+                <div class="scene-content" style="position: relative; z-index: 10; padding: 0 10%; width: 100%;">
+                    <div class="reveal-text-col" style="max-width: 500px;">
+                        <p class="reveal-eyebrow text-raspberry" style="letter-spacing: 0.2em; text-transform: uppercase;">The Materials</p>
+                        <h2 class="reveal-headline" style="font-size: clamp(2rem, 6vw, 3.5rem); margin: 1rem 0; color: var(--color-isabelline);">Threads of Gold</h2>
+                        <p class="text-isabelline" style="opacity: 0.9; margin-bottom: 2rem;">Drum-taut silk stretched on the Adda frame. The rhythmic scrape of metal. Our karigars use the Aari needle to sew precious spiraled wires and gold sequins, locking every segment onto the fabric by hand. Every spool holds a memory of an empire.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- FINAL JACKET LANDING SCENE -->
-            <section class="chapter" id="chapter-jacket" style="min-height: 100vh;">
-                <div class="background-art art-full-cover" id="jacket-image">
-                    <img src="assets/blazer_showcase.jpg" alt="Finished Jacket Showcase" style="opacity: 1; filter: none;">
+            <!-- SCENE 3: CONSTRUCTION -->
+            <section class="journey-scene scene-3" id="scene-3" style="position: relative; display: flex; align-items: center; height: 100vh; overflow: hidden; margin-top: -2px; background-color: #000;">
+                <!-- Full-Screen Background -->
+                <div class="pl-layer" data-speed="0">
+                    <video src="assets/construction_bg_video.mp4" class="fs-parallax-bg" autoplay loop muted playsinline style="transform: scale(1.35); transform-origin: center center;"></video>
+                </div>
+                <div class="fs-overlay-reverse"></div>
+                
+                <div class="scene-content" style="position: relative; z-index: 10; padding: 0 10%; width: 100%; display: flex; justify-content: flex-end;">
+                    <div class="reveal-text-col tp-right" style="max-width: 500px; text-align: left;">
+                        <p class="reveal-eyebrow text-raspberry" style="letter-spacing: 0.2em; text-transform: uppercase;">The Labor of Love</p>
+                        <h2 class="reveal-headline" style="font-size: clamp(2rem, 6vw, 3.5rem); margin: 1rem 0; color: var(--color-isabelline);">A Synthesis of<br>Armor and Art</h2>
+                        <p class="text-isabelline" style="opacity: 0.9; margin-bottom: 2rem;">Cut, steamed, and tailored into wearable history. Hours of devotion pinned to silk. The botanical crawls, the signature bee, and the profound geometric lines assemble into perfect symmetry. This is the memory of an empire, carried by the fingers of master karigars.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCENE 4: FINISHED JACKET -->
+            <section class="journey-scene scene-4" id="scene-4" style="position: relative; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; background-color: #000;">
+                <!-- Full-Screen Background -->
+                <div class="pl-layer" data-speed="0" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1;">
+                    <video src="assets/blazer_showcase_video.mp4" class="fs-parallax-bg" autoplay loop muted playsinline style="display: block; width: 100vw; height: 100vh; object-fit: cover; border-radius: 0; max-width: none; margin: 0; padding: 0; transform: scale(1.35); transform-origin: center center;"></video>
+                </div>
+                <!-- Subtle vignette to make text pop -->
+                <div style="position: absolute; inset: 0; background: radial-gradient(circle, transparent 50%, rgba(74, 53, 56, 0.4) 100%); z-index: 2;"></div>
+
+                <div class="scene-4-content" style="position: absolute; z-index: 10; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+                    
+                    <!-- Vertically centered text on the left -->
+                    <div style="position: absolute; top: 50%; left: 8vw; transform: translateY(-50%); width: 84vw; max-width: 600px; text-align: left;">
+                        <p class="reveal-eyebrow" style="letter-spacing: 0.2em; text-transform: uppercase; color: #F6F3F3; font-size: clamp(0.7rem, 2vw, 0.8rem); margin-bottom: 1rem; opacity: 0.8;">The Reveal</p>
+                        <h2 class="reveal-headline-cursive" style="font-size: clamp(1.2rem, 4vw, 2rem); margin: 0; font-family: var(--font-heading); color: #F6F3F3; line-height: 1.5; text-transform: uppercase; letter-spacing: 0.1em; font-weight: normal;">
+                            Bespoke Elegance
+                        </h2>
+                        <h2 class="reveal-headline" style="font-size: clamp(2rem, 6vw, 3.5rem); margin-top: 0; margin-bottom: 2rem; color: #F6F3F3;">The Golden Era<br>Jacket</h2>
+                        <a href="collection.html" class="btn-primary" style="display: inline-block; background-color: #F6F3F3; color: var(--color-bistre); padding: 1rem 2rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; font-size: 0.9rem; transition: all 0.3s ease; pointer-events: auto;">Explore the Collection</a>
+                    </div>
                 </div>
             </section>
 
@@ -171,12 +144,12 @@
                 <img src="assets/logo_dark.png" alt="IDOZ signature">
                 <span class="footer-brand-name">IDOZ</span>
             </div>
-            <p>Embroidered for eternity. Designed with devotion.</p>
+            <p style="color: var(--color-dusty-mauve); margin: 1rem 0; font-family: 'Cormorant Garamond', serif; font-style: italic;">Embroidered for eternity. Designed with devotion.</p>
             <div class="footer-links">
                 <a href="#">Instagram</a>
                 <a href="#">Pinterest</a>
-                <a href="about.html">The Artisans</a>
                 <a href="collection.html">The Collection</a>
+                <a href="about.html">The Craft</a>
             </div>
             <p class="copyright">&copy; 2026 IDOZ. All Rights Reserved.</p>
         </footer>
@@ -189,8 +162,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
     
+    <!-- Three.js & Loaders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+    
     <!-- Custom Application Logic -->
-    <script src="js/app.js?v=3.0"></script>
+    <script src="js/app.js?v=28.0"></script>
 </body>
 
 </html>
